@@ -1,3 +1,2 @@
-# lok.github.io
-lokasiku
+# ROPEL ID
 halo world
