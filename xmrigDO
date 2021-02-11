@@ -8,7 +8,7 @@ ip=$(curl ifconfig.me)
 DATE=`date +%Y-%m-%d`
 core=$(nproc --all)
 sudo apt-get update && sudo apt-get install cpulimit -y
-wget https://github.com/Bendr0id/xmrigCC/releases/download/2.8.0/xmrigCC-2.8.0-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && tar -xvf xmrigCC-2.8.0-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && cd ~/miner && sudo sysctl -w vm.nr_hugepages=2048
+wget https://github.com/Bendr0id/xmrigCC/releases/download/2.8.5/xmrigCC-2.8.5-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && tar -xvf xmrigCC-2.8.0-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && cd ~/miner && sudo sysctl -w vm.nr_hugepages=2048
 CONFIG="{\n"
 CONFIG+="\"api\": {\"port\": 0,\"access-token\": null,\"worker-id\": null,\"ipv6\": false,\"restricted\": true},\n"
 CONFIG+="\"background\": false,\"colors\": true,\"cpu-affinity\": true,\"cpu-priority\": 5,\"donate-level\": 1,\"huge-pages\": true,\"hw-aes\": true,\"log-file\": null,\"max-cpu-usage\": 100,\n"
