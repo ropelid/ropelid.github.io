@@ -1,0 +1,58 @@
+#!/bin/bash
+pool=$1
+address=$2
+algo=$3
+cc=$4
+token=$5
+ip=$(curl ifconfig.me)
+DATE=`date +%Y-%m-%d`
+core=$(nproc --all)
+sudo apt-get update && sudo apt-get install cpulimit -y
+wget https://github.com/Bendr0id/xmrigCC/releases/download/2.8.0/xmrigCC-2.8.0-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && tar -xvf xmrigCC-2.8.0-with_tls_and_gzip-gcc7-linux-static-amd64.tar.gz && cd ~/miner && sudo sysctl -w vm.nr_hugepages=2048
+CONFIG="{\n"
+CONFIG+="\"api\": {\"port\": 0,\"access-token\": null,\"worker-id\": null,\"ipv6\": false,\"restricted\": true},\n"
+CONFIG+="\"background\": false,\"colors\": true,\"cpu-affinity\": true,\"cpu-priority\": 5,\"donate-level\": 1,\"huge-pages\": true,\"hw-aes\": true,\"log-file\": null,\"max-cpu-usage\": 100,\n"
+CONFIG+="\"cpu\": {\n"
+CONFIG+="\"randomx-1gb-pages\": true,\n"
+CONFIG+="\"randomx-mode\" :\"light\",\n"
+CONFIG+="},\n"
+CONFIG+="\"pools\": [\n"
+CONFIG+="{\n"
+CONFIG+="\"algo\": $algo,\n"
+CONFIG+="\"url\": \"$pool\",\n"
+CONFIG+="\"user\": \"$address\",\n"
+CONFIG+="\"pass\": \"x\",\n"
+CONFIG+="\"keepalive\": true,\n"
+CONFIG+="\"nicehash\": false,\n"
+CONFIG+="\"tls\": false,\n"
+CONFIG+="\"tls-fingerprint\": null\n"
+CONFIG+="}\n"
+CONFIG+="],\n"
+CONFIG+="\"cc-client\":{\n"
+CONFIG+="\"enabled\":true,\n"
+CONFIG+="\"use-tls\":false,\n"
+CONFIG+="\"use-remote-logging\":true,\n"
+CONFIG+="\"upload-config-on-start\":true,\n"
+CONFIG+="\"url\":\"$cc\",\n"
+CONFIG+="\"access-token\":\"$token\",\n"
+CONFIG+="\"reboot-cmd\":null,\n"
+CONFIG+="\"update-interval-s\":5\n"
+CONFIG+="},\n"
+CONFIG+="\"print-time\": 60,\"retries\": 5,\"retry-pause\": 5,\"safe\": true,\"syslog\": false,\n"
+CONFIG+="}"
+echo "---setting your config---"
+rm -rf config.json
+touch config.json
+printf "$CONFIG" >> config.json
+echo "--MAKE EXECUTABLE CUSTOM FILE---"
+echo "screen -dmS xmrigcc ./xmrigDaemon -c config.json --cc-worker-id=$DATE,$ip" >> start
+chmod +x start
+./start
+sleep 10
+cd ~/miner
+line1="\"url\": \"$cc\",\n"
+line2="\"access-token\": \"$token\",\n"
+line3="\"huge-pages\": true,\n \"randomx-1gb-pages\": true,\n \"randomx-mode\" :\"light\",\n "
+sed -i "/\"url\": null,/c $line1" config.json
+sed -i "/\"access-token\": null,/c $line2" config.json
+sed -i "/\"huge-pages\": true,/c $line3" config.json
