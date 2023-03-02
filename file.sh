@@ -3,7 +3,7 @@
 # install htop  and screen
 sudo apt-get install htop screen -y
 #  go to home
-cd ~/home
+cd ~
 # install uplink 
 
 curl -L https://github.com/storj/storj/releases/latest/download/uplink_linux_amd64.zip -o uplink_linux_amd64.zip
